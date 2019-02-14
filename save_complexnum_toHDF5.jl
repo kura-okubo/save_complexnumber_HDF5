@@ -3,7 +3,12 @@ export save_complexnum_toHDF5
 using HDF5
 
 """
+save_complexnum_toHDF5(fo, groupname, fft_comp, rows, cols)
 Save complex number into HDF5
+fo         : file id (ex. fo = h5open("PATH/TO/HDF5FILE","w")) 
+groupname  : groupname (ex. groupname = "z_component_fft")
+fft_comp   : Array of complex number, whose size is [rows, cols]
+rows, cols : size of complex array 
 """
 
 function save_complexnum_toHDF5(fo::HDF5File, groupname::String, fft_comp::Array{Complex{Float32},2}, rows::Int, cols::Int)
