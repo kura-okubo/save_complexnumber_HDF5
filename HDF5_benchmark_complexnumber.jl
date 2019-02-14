@@ -82,6 +82,7 @@ p1 = plot(N, elapsedtime1, line=(:black, 2, :solid),
     xlabel  = "Number of loading files",
     label   = "Loading real and image separately",
     xscale  =:log10,
+    yscale  =:log10,
     legend  =:topleft
     )
 
