@@ -7,6 +7,11 @@ using HDF5, BenchmarkTools, Plots
 #d_type_array used to load the complex number from HDF5
 const d_type_array = HDF5.h5t_array_create(HDF5.hdf5_type_id(Float32), 1, [2])
 
+const FFTDIR = "./FFT_realimag/"
+const FFTDIR_comp = "./FFT_comp/"
+const nx = 36451
+const ny = 47
+
 #-----------------------------------------------------#
 #Functions for data loading
 #-----------------------------------------------------#
@@ -27,7 +32,9 @@ end
 function process1(N::Int)
 	#Read N times
 	for i = 1:N
+		hdf5_1 = h5open(FFTDIR*"N.AWNH.h5","r")
 		loadHDF5(tmp1,tmp2,fft_s1,hdf5_1,name)
+		close(hdf5_1)
 	end
 end
 
@@ -35,7 +42,9 @@ end
 function process2(N::Int)
 	#Read N times
 	for i = 1:N
+		hdf5_2 = h5open(FFTDIR_comp*"N.AWNH.h5","r")
 		loadHDF5_complexarray!(fft_s2, hdf5_2, name, nx, ny)
+		close(hdf5_2)
 	end
 end
 
@@ -43,18 +52,11 @@ end
 #Run the test
 #-----------------------------------------------------#
 
-const FFTDIR = "./FFT_realimag/"
-const FFTDIR_comp = "./FFT_comp/"
-const nx = 36451
-const ny = 47
-
 tmp1   = Array{Float32}(undef,nx,ny)  #for load hdf5
 tmp2   = similar(tmp1)
 
 fft_s1 = Array{Complex{Float32}}(undef,nx,ny)
 fft_s2 = Array{Complex{Float32}}(undef,nx,ny)
-hdf5_1 = h5open(FFTDIR*"N.AWNH.h5","r")
-hdf5_2 = h5open(FFTDIR_comp*"N.AWNH.h5","r")
 
 name ="fft_N_AWNH_EHZ_2010_01_10"
 
